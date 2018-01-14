@@ -1,0 +1,14 @@
+{
+    "extends": "airbnb-base",
+    "env": {
+        "node": true
+    },
+    "rules": {
+        "indent": ["error", 4],
+        "global-require": "off",
+        "no-console": "off",
+        "consistent-return": "off",
+        "prefer-destructuring": "off",
+        "newline-per-chained-call": "off"
+    }
+}

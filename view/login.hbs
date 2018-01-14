@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Panel Domotique - Connexion</title>
+
+        <link rel="stylesheet" href="/base.css"/>
+    </head>
+    <body>
+        <div class="login">
+            <h1>Connexion</h1>
+
+            {{#if error}}
+                <div class="error">
+                    <p><strong>Erreur :</strong> {{error}}</p>
+                </div>
+            {{/if}}
+
+            <form method="POST">
+                <input type="text" name="username" placeholder="Nom de compte"/>
+                <input type="password" name="password" placeholder="Mot de passe"/>
+                <input type="submit" value="Valider"/>
+            </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Panel Domotique - Accueil</title>
+
+        <link rel="stylesheet" href="/base.css"/>
+    </head>
+    <body>
+        <div class="metrics">
+            <h1>Données</h1>
+
+            <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+                <canvas id="temperature-chart"></canvas>
+            </div>
+
+            <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+                <canvas id="carbon-monoxide-chart"></canvas>
+            </div>
+
+            <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+                <canvas id="power-consumption-chart"></canvas>
+            </div>
+        </div>
+
+        <script src="/vendors/polyfills.js"></script>
+        <script src="/vendors/chart.js"></script>
+        <script src="/vendors/moment.js"></script>
+        <script src="/home.js"></script>
+    </body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "name": "domotique-sin",
+  "description": "Projet de domotique pour le bac STI2D option SIN.",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node script/start.js",
+    "create-account": "node script/create-account.js",
+    "populate-metrics": "node script/populate-metrics.js",
+    "lint": "eslint --env node lib/**",
+    "lint:fix": "eslint --env node --fix lib/**/*.js"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "^0.0.3",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.6",
+    "homekit": "^0.0.3",
+    "inquirer": "^5.0.0",
+    "ioredis": "^3.2.2",
+    "morgan": "^1.9.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.15.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0"
+  },
+  "license": "MIT"
+}
