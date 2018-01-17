@@ -1,3 +1,12 @@
 .page-header {
     margin-top: 20px;
 }
+
+.chart-container {
+    width: 100%;
+    height: auto;
+}
+
+a:not([href]):not([tabindex]).navbar-brand {
+    color: #FFF;
+}
