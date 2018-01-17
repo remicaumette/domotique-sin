@@ -2,25 +2,41 @@
 <html lang="fr">
     <head>
         <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <title>Panel Domotique - Connexion</title>
 
-        <link rel="stylesheet" href="/base.css"/>
+        <link rel="stylesheet" href="/vendors/bootstrap.css"/>
+        <link rel="stylesheet" href="/login.css"/>
     </head>
     <body>
-        <div class="login">
-            <h1>Connexion</h1>
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-md-7 col-lg-6">
+                    <h1>Connexion</h1>
 
-            {{#if error}}
-                <div class="error">
-                    <p><strong>Erreur :</strong> {{error}}</p>
+                    <div class="login">
+                        {{#if error}}
+                            <div class="alert alert-danger" role="alert">
+                                <strong>Erreur :</strong> {{error}}
+                            </div>
+                        {{/if}}
+
+                        <form method="POST">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="username" placeholder="Nom de compte"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" name="password" placeholder="Mot de passe"/>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Valider</button>
+                        </form>
+                    </div>
                 </div>
-            {{/if}}
-
-            <form method="POST">
-                <input type="text" name="username" placeholder="Nom de compte"/>
-                <input type="password" name="password" placeholder="Mot de passe"/>
-                <input type="submit" value="Valider"/>
-            </form>
+            </div>
         </div>
+
+        <script src="/vendors/jquery.js"></script>
+        <script src="/vendors/popper.js"></script>
+        <script src="/vendors/bootstrap.js"></script>
     </body>
 </html>
