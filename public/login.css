@@ -1,6 +1,5 @@
 body {
     background: #F7F7F7;
-    padding-top: 100px;
 }
 
 h1 {
@@ -12,4 +11,12 @@ h1 {
     padding: 15px;
     border-radius: 4px;
     background: #FFF;
+}
+
+a:not([href]):not([tabindex]).navbar-brand {
+    color: #FFF;
+}
+
+.navbar {
+    margin-bottom: 90px;
 }
