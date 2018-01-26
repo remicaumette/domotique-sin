@@ -3,10 +3,7 @@
 ### Informations
 
 Ecrit en nodejs, template handlebars, base de donnée redis, framework front
-bootstrap et plain js. Supporte :
-
-- Site web
-- HomeKit
+bootstrap et plain js.
 
 Variable d'environnement :
 
@@ -21,24 +18,23 @@ sudo apt install redis-server git
 git clone https://github.com/remicaumette/domotique-sin.git
 cd domotique-sin
 sudo sh ./script/install_nodejs.sh
-npm install -g yarn
-yarn install
+npm install
 ```
 
 ### Créer un compte
 
 ```
-yarn create-account
+npm run create-account
 ```
 
 ### Fake metrics
 
 ```
-yarn populate-metrics
+npm run populate-metrics
 ```
 
 ### Lancer
 
 ```
-yarn start
+npm run start
 ```
