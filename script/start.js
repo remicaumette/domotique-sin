@@ -8,10 +8,6 @@ server.on('listening', () => {
     console.log('   Press CTRL-C to stop\n');
 });
 
-server.on('error', (error) => {
-    console.log();
-    console.error(error);
-    console.log();
-});
+server.on('error', console.error);
 
 server.listen(process.env.PORT || 3000);
