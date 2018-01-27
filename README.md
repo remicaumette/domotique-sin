@@ -16,7 +16,8 @@ Variable d'environnement :
 ```
 sudo apt install git
 sudo git clone https://github.com/remicaumette/domotique-sin.git /opt/domotique-sin
-sh ./script/install/node.sh
+sudo sh ./script/install/node.sh
+cd /opt/domotique-sin
 yarn install
 ```
 

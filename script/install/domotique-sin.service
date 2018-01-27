@@ -1,6 +1,6 @@
 [Unit]
 Description=Projet de domotique pour le bac STI2D option SIN.
-Requires=After=redis.service
+After=redis.service
 
 [Service]
 ExecStart=node /opt/domotique-sin/script/start.js
