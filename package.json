@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node script/start.js",
     "create-account": "node script/create-account.js",
-    "populate-metrics": "node script/populate-metrics.js",
+    "fake-modules": "node script/fake-modules.js",
     "lint": "eslint --env node lib/**",
     "lint:fix": "eslint --env node --fix lib/**/*.js"
   },

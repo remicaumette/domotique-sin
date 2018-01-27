@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const { Account } = require('../lib/model');
+const { Account } = require('../lib/database');
 
 inquirer.prompt([
     {

@@ -14,27 +14,26 @@ Variable d'environnement :
 ### Installation
 
 ```
-sudo apt install redis-server git
-git clone https://github.com/remicaumette/domotique-sin.git
-cd domotique-sin
-sudo sh ./script/install_nodejs.sh
-npm install
+sudo apt install git
+sudo git clone https://github.com/remicaumette/domotique-sin.git /opt/domotique-sin
+sh ./script/install/node.sh
+yarn install
 ```
 
 ### Créer un compte
 
 ```
-npm run create-account
+yarn create-account
 ```
 
-### Fake metrics
+### Fake modules
 
 ```
-npm run populate-metrics
+yarn fake-modules
 ```
 
 ### Lancer
 
 ```
-npm run start
+yarn start
 ```

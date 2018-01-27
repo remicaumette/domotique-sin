@@ -1,0 +1,16 @@
+[Unit]
+Description=Projet de domotique pour le bac STI2D option SIN.
+Requires=After=redis.service
+
+[Service]
+ExecStart=node /opt/domotique-sin/script/start.js
+WorkingDirectory=/opt/domotique-sin
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=domotique-sin
+Environment=NODE_ENV=production PORT=3000
+
+[Install]
+WantedBy=multi-user.target
