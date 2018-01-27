@@ -3,7 +3,7 @@ Description=Projet de domotique pour le bac STI2D option SIN.
 After=redis.service
 
 [Service]
-ExecStart=node /opt/domotique-sin/script/start.js
+ExecStart=/usr/bin/node /opt/domotique-sin/script/start.js
 WorkingDirectory=/opt/domotique-sin
 Restart=always
 RestartSec=10
