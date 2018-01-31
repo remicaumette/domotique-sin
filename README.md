@@ -14,7 +14,7 @@ Variable d'environnement :
 ### Installation
 
 ```
-sudo apt install git
+sudo apt install git curl bash
 sudo git clone https://github.com/remicaumette/domotique-sin.git /opt/domotique-sin
 sudo chown -R $USER /opt/domotique-sin
 cd /opt/domotique-sin
