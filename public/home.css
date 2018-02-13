@@ -10,3 +10,15 @@
 a:not([href]):not([tabindex]).navbar-brand {
     color: #FFF;
 }
+
+#alerts {
+    margin-top: 20px;
+}
+
+#desired-temperature-form {
+    margin-top: 20px;
+}
+
+body {
+    padding-bottom: 20px;
+}

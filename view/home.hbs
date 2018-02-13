@@ -24,10 +24,45 @@
         </nav>
 
         <div class="container">
-            <h1 class="page-header">Données</h1>
+            <div id="alerts">
+            </div>
 
-            <div class="chart-container">
-                <canvas id="chart"></canvas>
+            <form class="form-inline" id="desired-temperature-form">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Température voulue</span>
+                        </div>
+                        <input type="number" class="form-control right" id="desired-temperature" name="desired-temperature"/>
+                        <div class="input-group-append">
+                            <span class="input-group-text">°C</span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="temperature">
+                        <h3 class="page-header">Température</h3>
+                        <canvas id="temperature-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <h3 class="page-header">Consommation électrique</h3>
+                    <canvas id="power-consumption-chart"></canvas>
+                </div>
+
+                <div class="col-md-6">
+                    <h3 class="page-header">Monoxyde de carbone</h3>
+                    <canvas id="carbon-monoxide-chart"></canvas>
+                </div>
+
+                <div class="col-md-6">
+                    <h3 class="page-header">Luminosité</h3>
+                    <canvas id="luminosity-chart"></canvas>
+                </div>
             </div>
         </div>
 

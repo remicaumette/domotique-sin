@@ -25,6 +25,12 @@ sh ./script/install/service.sh
 yarn install
 ```
 
+### Modules
+
+L'ensemble des modules sont disponibles dans le dossier ```module```.
+Ils fonctionnent avec l'esp8266 et utilisent Arduino. Pour le module intercom,
+il faut directement l'installer sur la Raspberry à l'aide du Makefile.
+
 ### Créer un compte
 
 ```
