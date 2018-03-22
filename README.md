@@ -11,18 +11,10 @@ Variable d'environnement :
 - SECRET : Secret utilisé pour les sessions
 - PORT : Port du serveur web
 
-### Installation
+### Installation avec Docker Compose
 
 ```
-sudo apt install git curl bash
-sudo git clone https://github.com/remicaumette/domotique-sin.git /opt/domotique-sin
-sudo chown -R $USER /opt/domotique-sin
-cd /opt/domotique-sin
-sh ./script/install/redis.sh
-sh ./script/install/nodejs.sh
-sh ./script/install/yarn.sh
-sh ./script/install/service.sh
-yarn install
+docker-compose -d up
 ```
 
 ### Modules
@@ -34,17 +26,17 @@ il faut directement l'installer sur la Raspberry à l'aide du Makefile.
 ### Créer un compte
 
 ```
-yarn create-account
+npm run create-account
 ```
 
 ### Fake modules
 
 ```
-yarn fake-modules
+npm run fake-modules
 ```
 
 ### Lancer
 
 ```
-yarn start
+npm run start
 ```
