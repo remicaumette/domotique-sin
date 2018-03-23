@@ -14,7 +14,7 @@ Variable d'environnement :
 ### Installation avec Docker Compose
 
 ```
-docker-compose -d up
+docker-compose up -d
 ```
 
 ### Modules
