@@ -1,21 +1,12 @@
 const Connection = require('../lib/database/connection');
 
 const fakeTemperatureModule = () => {
-    const subscriber = Connection.open();
     const publisher = Connection.open();
 
     setInterval(() => publisher.publish('sensors', JSON.stringify({
         sensor: 'TEMPERATURE',
         value: Math.floor(Math.random() * 40),
     })), 60 * 1000);
-
-    subscriber.subscribe('actuators');
-
-    subscriber.on('message', (channel, message) => {
-        if (message.actuator === 'HEATING') {
-            console.log(`Request to the heating module: ${message}`);
-        }
-    });
 };
 
 const fakeCarbonMonoxideModule = () => {

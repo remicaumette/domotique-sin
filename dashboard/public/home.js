@@ -45,7 +45,12 @@ eventSource.onmessage = function (event) {
     var value = eventData.value;
     var chart = CHART_BY_METRIC[metric.toUpperCase()];
 
-    if (chart) {
+    console.log(metric)
+    if (metric == 'CAMERA') {
+        document.getElementById('camera').src = "data:image/png;base64,"+ value;
+    } else if (metric == 'FACE_RECOGNITION') {
+        console.log('ok');
+    } else if (chart) {
         chart.data.labels.push(time);
         chart.data.datasets[0].data.push({ x: time, y: value });
         chart.update();

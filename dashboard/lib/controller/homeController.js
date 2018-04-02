@@ -39,6 +39,11 @@ Object.values(Database.METRICS)
         });
     });
 
+Database.CAMERA_EVENTS.on('data', (data) => {
+    connections.forEach(connection =>
+        connection.sendMetric('CAMERA', 0, data));
+});
+
 module.exports.getEvents = (req, res) => {
     res.set('Content-Type', 'text/event-stream');
     res.set('Cache-Control', 'no-cache');

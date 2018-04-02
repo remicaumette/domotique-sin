@@ -32,7 +32,7 @@ class Metrics extends EventEmitter {
         return redis.zrange(`metrics:${this.name}`, `-${limit || 1}`, '-1', 'WITHSCORES')
             .then((rawData) => {
                 const data = [];
-                for (let i = 0; i < rawData.length / 2; i += 2) {
+                for (let i = 0; i < rawData.length; i += 2) {
                     data.push({ time: JSON.parse(rawData[i + 1]), value: JSON.parse(rawData[i]) });
                 }
                 redis.disconnect();

@@ -15,10 +15,14 @@ a:not([href]):not([tabindex]).navbar-brand {
     margin-top: 20px;
 }
 
-#desired-temperature-form {
-    margin-top: 20px;
-}
-
 body {
     padding-bottom: 20px;
+}
+
+.door-actions {
+    text-align: right;
+}
+
+.door-actions a.btn, .door-actions a.btn:hover, .door-actions a.btn:focus {
+    color: #FFF;
 }

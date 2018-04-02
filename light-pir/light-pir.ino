@@ -58,4 +58,5 @@ void loop()
     {
         Serial.println("Failed to send the presence over redis pub/sub!");
     }
+    delay(2000);
 }
