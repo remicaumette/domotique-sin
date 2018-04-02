@@ -3,12 +3,14 @@ services:
   redis:
     image: redis
     restart: always
+    command: redis-server --appendonly yes
     ports:
       - 6379:6379
     volumes:
       - ./data:/data
-  website:
-    build: .
+  dashboard:
+    build: 
+      context: ./dashboard
     restart: always
     environment:
       - REDIS=redis://redis/
@@ -16,4 +18,3 @@ services:
       - 80:3000
     links:
       - redis
-

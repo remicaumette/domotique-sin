@@ -47,7 +47,7 @@ eventSource.onmessage = function (event) {
 
     if (chart) {
         chart.data.labels.push(time);
-        chart.data.datasets[0].data.push({ x: time, y: value});
+        chart.data.datasets[0].data.push({ x: time, y: value });
         chart.update();
     }
 };

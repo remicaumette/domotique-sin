@@ -1,7 +1,6 @@
 {
   "private": true,
-  "name": "domotique-sin",
-  "description": "Projet de domotique pour le bac STI2D option SIN.",
+  "name": "domotique-sin-dashboard",
   "version": "1.0.0",
   "scripts": {
     "start": "node script/start.js",
