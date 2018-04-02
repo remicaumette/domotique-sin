@@ -2,7 +2,7 @@ const express = require('express');
 const handlebars = require('express-handlebars');
 const path = require('path');
 const morgan = require('morgan');
-const session = require('express-session');
+const cookie = require('cookie-parser');
 const body = require('body-parser');
 const Database = require('./database');
 const { HomeController, AuthController } = require('./controller');
@@ -14,10 +14,9 @@ app.engine('hbs', handlebars());
 
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, '..', 'view'));
-
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '..', 'public')));
-app.use(session({ secret: process.env.SECRET || 'wowthisismysecret', resave: false, saveUninitialized: false }));
+app.use(cookie());
 app.use(body.urlencoded({ extended: false }));
 app.use(body.json());
 

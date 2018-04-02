@@ -1,7 +1,7 @@
 const Database = require('../database');
 
 module.exports.getIndex = (req, res) => {
-    if (req.session.user) {
+    if (req.cookies.access_token) {
         return res.redirect('/home');
     }
     res.redirect('/auth/login');

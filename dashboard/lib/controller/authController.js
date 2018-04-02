@@ -1,7 +1,8 @@
+const JWT = require('jsonwebtoken');
 const { Account } = require('../database');
 
 module.exports.getLogin = (req, res) => {
-    if (req.session.user) {
+    if (req.cookies.access_token) {
         return res.redirect('/home');
     }
 
@@ -9,7 +10,7 @@ module.exports.getLogin = (req, res) => {
 };
 
 module.exports.postLogin = (req, res) => {
-    if (req.session.user) {
+    if (req.cookies.access_token) {
         return res.redirect('/home');
     }
 
@@ -21,8 +22,13 @@ module.exports.postLogin = (req, res) => {
                 return user.comparePassword(password)
                     .then((match) => {
                         if (match) {
-                            req.session.user = user.username;
-                            return res.redirect('/home');
+                            return JWT.sign({ user: user.username }, process.env.SECRET || 'wowthisismysecret', (err, token) => {
+                                if (err) {
+                                    return res.render('login', { error: "Une erreur s'est produite." });
+                                }
+                                res.cookie('access_token', token);
+                                return res.redirect('/home');
+                            });
                         }
                         res.render('login', { error: 'Nom de compte ou mot de passe incorrect.' });
                     });
@@ -36,6 +42,6 @@ module.exports.postLogin = (req, res) => {
 };
 
 module.exports.getLogout = (req, res) => {
-    req.session.user = undefined;
+    res.clearCookie('access_token');
     res.redirect('/auth/login');
 };
