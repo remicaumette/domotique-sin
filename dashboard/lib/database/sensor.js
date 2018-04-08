@@ -7,7 +7,7 @@ class Sensor extends EventEmitter {
         this.name = name;
     }
 
-    addMetric(time, value) {
+    addData(time, value) {
         const redis = Connection.open();
 
         return redis.zadd(`sensors:${this.name}`, time, value)
@@ -17,14 +17,16 @@ class Sensor extends EventEmitter {
             });
     }
 
-    getLastMetrics(limit) {
+    getLastData(limit) {
         const redis = Connection.open();
 
         return redis.zrange(`sensors:${this.name}`, `-${limit || 1}`, '-1', 'WITHSCORES')
             .then((rawData) => {
                 const data = [];
                 for (let i = 0; i < rawData.length; i += 2) {
-                    data.push({ time: JSON.parse(rawData[i + 1]), value: JSON.parse(rawData[i]) });
+                    data.push({
+                        time: JSON.parse(rawData[i + 1]), value: this.name === 'face_recognition' ? rawData[i] : JSON.parse(rawData[i]),
+                    });
                 }
                 redis.disconnect();
                 return data;

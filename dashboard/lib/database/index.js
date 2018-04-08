@@ -8,6 +8,7 @@ const HUMIDITY_SENSOR = new Sensor('humidity');
 const VOLATIL_ORGANIC_COMPOUND_SENSOR = new Sensor('volatil_organic_compound');
 const POWER_CONSUMPTION_SENSOR = new Sensor('power_consumption');
 const LUMINOSITY_SENSOR = new Sensor('luminosity');
+const FACE_RECOGNITION_SENSOR = new Sensor('face_recognition');
 
 const SENSORS = {
     TEMPERATURE: TEMPERATURE_SENSOR,
@@ -15,14 +16,14 @@ const SENSORS = {
     VOLATIL_ORGANIC_COMPOUND: VOLATIL_ORGANIC_COMPOUND_SENSOR,
     POWER_CONSUMPTION: POWER_CONSUMPTION_SENSOR,
     LUMINOSITY: LUMINOSITY_SENSOR,
+    FACE_RECOGNITION: FACE_RECOGNITION_SENSOR,
 };
 
-const SENSORS_EVENTS = new EventEmitter();
+const EVENTS = new EventEmitter();
 Object.values(SENSORS)
     .forEach((sensor) => {
-        sensor.on('add', value => SENSORS_EVENTS.emit('add', { sensor, time: value.time, value: value.value }));
+        sensor.on('add', value => EVENTS.emit('add', { sensor, time: value.time, value: value.value }));
     });
-const CAMERA_EVENTS = new EventEmitter();
 
 const getDesiredTemperature = () => {
     const redis = Connection.open();
@@ -46,8 +47,13 @@ const init = () => {
 
     sensorsListener.on('message', (channel, message) => {
         const data = JSON.parse(message);
+        const sensor = SENSORS[data.sensor];
         data.time = Math.floor(Date.now() / 1000) * 1000;
-        SENSORS[data.sensor].addMetric(data.time, data.value);
+        if (sensor) {
+            sensor.addData(data.time, data.value);
+        } else if (data.sensor === 'CAMERA') {
+            EVENTS.emit('add', { sensor: { name: 'CAMERA' }, time: data.time, value: data.value });
+        }
     });
 };
 
@@ -55,8 +61,7 @@ module.exports = {
     Sensor,
     Account,
     SENSORS,
-    SENSORS_EVENTS,
-    CAMERA_EVENTS,
+    EVENTS,
     getDesiredTemperature,
     setDesiredTemperature,
     init,

@@ -1,7 +1,4 @@
 /* eslint-disable */
-Array.prototype.insert = function (index, item) {
-    this.splice(index, 0, item);
-};
 
 require(['c3', 'jquery'], function (c3, $) {
     $(document).ready(function () {
@@ -13,6 +10,17 @@ require(['c3', 'jquery'], function (c3, $) {
 
         function handleError() {
             displayAlert('danger', "Une erreur s'est produite merci de réessayer plus tard.");
+        }
+
+        function uri2array(uri, buffer) {
+            var marker = ';base64,',
+                raw = window.atob(uri.substring(uri.indexOf(marker) + marker.length)),
+                n = raw.length,
+                a = new Uint8Array(new ArrayBuffer(n));
+            for (var i = 0; i < n; i++) {
+                a[i] = raw.charCodeAt(i);
+            }
+            return buffer ? a.buffer : a;
         }
 
         function makeSensor(element, name) {
@@ -87,8 +95,6 @@ require(['c3', 'jquery'], function (c3, $) {
         };
 
         /** SENSORS EVENTS */
-        var eventSource = new EventSource('/events');
-
         var SENSORS = {
             TEMPERATURE: makeSensor('temperature-chart', 'Température'),
             HUMIDITY: makeSensor('humidity-chart', 'Humidité'),
@@ -96,12 +102,13 @@ require(['c3', 'jquery'], function (c3, $) {
             POWER_CONSUMPTION: makeSensor('power-consumption-chart', 'Consommation électrique'),
             LUMINOSITY: makeSensor('luminosity-chart', 'Luminosité'),
         };
+        var socket = io();
+        var uriCache;
 
-        eventSource.onmessage = function (event) {
-            var eventData = JSON.parse(event.data);
-            var sensor = SENSORS[eventData.sensor.toUpperCase()];
-            var time = new Date(eventData.time);
-            var value = eventData.value;
+        socket.on('sensors', function(event) {
+            var sensor = SENSORS[event.sensor.toUpperCase()];
+            var time = new Date(event.time);
+            var value = event.value;
 
             if (sensor) {
                 var x = sensor.data[0];
@@ -113,7 +120,20 @@ require(['c3', 'jquery'], function (c3, $) {
                 sensor.chart.load({
                     columns: sensor.data
                 });
+            } else if (event.sensor.toUpperCase() === 'CAMERA') {
+                if (uriCache) {
+                    URL.revokeObjectURL(uriCache);
+                    uriCache = undefined;
+                }
+                uriCache = URL.createObjectURL(new Blob([uri2array('data:image/png;base64,' + value)], { type: 'image/png' }));
+                document.getElementById('camera').src = uriCache;
+            } else if (event.sensor.toUpperCase() === 'FACE_RECOGNITION') {
+                var element = document.getElementById('face-recognition');
+                var uri = URL.createObjectURL(new Blob([uri2array('data:image/png;base64,' + value)], { type: 'image/png' }));
+                element.innerHTML = element.innerHTML + '<div class="col-6 col-md-4 col-lg-3 col-xl-2"><img class="rounded" src="'+ uri +'"/></div>';
             }
-        };
+        });
+
+        socket.emit('ready');
     });
 });

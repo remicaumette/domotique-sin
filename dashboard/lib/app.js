@@ -1,4 +1,5 @@
 const express = require('express');
+const socketio = require('socket.io');
 const handlebars = require('express-handlebars');
 const path = require('path');
 const morgan = require('morgan');
@@ -9,7 +10,9 @@ const { HomeController, AuthController } = require('./controller');
 const { checkAuth } = require('./middleware');
 
 const app = express();
+const io = socketio();
 
+app.io = io;
 app.engine('hbs', handlebars());
 
 app.set('view engine', 'hbs');
@@ -26,10 +29,21 @@ app.get('/', HomeController.getIndex);
 app.get('/home', checkAuth, HomeController.getHome);
 app.get('/desired_temperature', checkAuth, HomeController.getDesiredTemperature);
 app.post('/desired_temperature', checkAuth, HomeController.postDesiredTemperature);
-app.get('/events', checkAuth, HomeController.getEvents);
 
 app.get('/auth/login', AuthController.getLogin);
 app.post('/auth/login', AuthController.postLogin);
 app.get('/auth/logout', checkAuth, AuthController.getLogout);
+
+io.on('connection', (client) => {
+    client.on('ready', () => {
+        Object.values(Database.SENSORS)
+            .forEach(sensor =>
+                sensor.getLastData(10)
+                    .then(metrics => metrics.forEach(value =>
+                        client.emit('sensors', { sensor: sensor.name, time: value.time, value: value.value })))
+                    .catch(console.error));
+        Database.EVENTS.on('add', event => client.emit('sensors', { sensor: event.sensor.name, time: event.time, value: event.value }));
+    });
+});
 
 module.exports = app;

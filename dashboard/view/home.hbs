@@ -45,20 +45,8 @@
                                         <h3 class="card-title">Température</h3>
                                     </div>
                                     <div class="card-body">
-                                        <div id="temperature-chart" style="height: calc(16rem - 38px)"></div>
-                                        <form class="form-inline" id="desired-temperature-form">
-                                            <div class="form-group" style="-ms-flex: auto; flex: auto;">
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">Température voulue</span>
-                                                    </div>
-                                                    <input type="number" class="form-control right" id="desired-temperature" name="desired-temperature" />
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">°C</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
+                                        <div id="temperature-chart" style="height: 16rem"></div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -102,24 +90,55 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="container">
-                    <div id="alerts">
-                    </div>
-                
-                    <div class="row">
-                        <div class="col-md-6">
-                            
+                            <div class="col-lg-6 col-xl-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Caméra</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <img id="camera" src="/images/no_data.png" style="height: 16rem; width: auto;"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xl-8">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Intrus</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row" id="face-recognition"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xl-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Actions</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <form class="form-inline" id="desired-temperature-form">
+                                            <div class="form-group" style="-ms-flex: auto; flex: auto;">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Température voulue</span>
+                                                    </div>
+                                                    <input type="number" class="form-control right" id="desired-temperature" name="desired-temperature" />
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">°C</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <script src="/socket.io/socket.io.js"></script>
         <script src="/assets/js/require.min.js"></script>
         <script>
             requirejs.config({
