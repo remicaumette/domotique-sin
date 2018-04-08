@@ -5,96 +5,130 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <title>Panel Domotique - Accueil</title>
 
-        <link rel="stylesheet" href="/vendors/bootstrap.css"/>
-        <link rel="stylesheet" href="/home.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext"/>
+        <link rel="stylesheet" href="/assets/css/dashboard.css"/>
+        <link rel="stylesheet" href="/assets/plugins/charts-c3/plugin.css"/>
     </head>
     <body>
-        <nav class="navbar navbar-dark navbar-expand-lg bg-primary">
-            <a class="navbar-brand">Panel Domotique</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbar">
-                <ul class="navbar-nav ml-auto">
-                  <li class="nav-item">
-                      <a class="nav-link" href="/auth/logout">Déconnexion</a>
-                  </li>
-                </ul>
-            </div>
-        </nav>
-
-        <div class="container">
-            <div id="alerts">
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <form class="form-inline" id="desired-temperature-form">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Température voulue</span>
-                                </div>
-                                <input type="number" class="form-control right" id="desired-temperature" name="desired-temperature" />
-                                <div class="input-group-append">
-                                    <span class="input-group-text">°C</span>
+        <div class="page">
+            <div class="page-main">
+                <div class="header py-4">
+                    <div class="container">
+                        <div class="d-flex">
+                            <a class="header-brand" href="/">Panel Domotique</a>
+                            <div class="d-flex order-lg-2 ml-auto">
+                                <div class="dropdown">
+                                    <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
+                                        <span class="avatar" style="background-image: url(/images/avatar.png)"></span>
+                                        <span class="ml-2 d-none d-lg-block">
+                                            <span class="text-default">Mon compte</span>
+                                        </span>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                        <a class="dropdown-item" href="/auth/logout">
+                                            <i class="dropdown-icon fe fe-log-out"></i> Déconnexion
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="col-md-6">
-                    <div class="door-actions">
-                        <a class="btn btn-success">Ouvrir la porte</a>
-                        <a class="btn btn-danger">Fermer la porte</a>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-9">
-                    <div class="temperature">
-                        <h3 class="page-header">Intrus</h3>
-                        
+                <div class="my-3 my-md-5">
+                    <div class="container">
+                        <div id="alerts"></div>
+                        <div class="row row-cards">
+                            <div class="col-lg-6 col-xl-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Température</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="temperature-chart" style="height: calc(16rem - 38px)"></div>
+                                        <form class="form-inline" id="desired-temperature-form">
+                                            <div class="form-group" style="-ms-flex: auto; flex: auto;">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Température voulue</span>
+                                                    </div>
+                                                    <input type="number" class="form-control right" id="desired-temperature" name="desired-temperature" />
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">°C</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xl-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Humidité</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="humidity-chart" style="height: 16rem"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xl-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Composé organique volatil</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="volatil-organic-compound-chart" style="height: 16rem"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xl-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Consommation électrique</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="power-consumption-chart" style="height: 16rem"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xl-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Luminosité</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="luminosity-chart" style="height: 16rem"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
                     </div>
                 </div>
-            
-                <div class="col-md-3">
-                    <h3 class="page-header">Caméra</h3>
-                    <img alt="Camera" id="camera" width="100%" src="/images/no_data.png"/>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="temperature">
-                        <h3 class="page-header">Température</h3>
-                        <canvas id="temperature-chart"></canvas>
+                <div class="container">
+                    <div id="alerts">
                     </div>
-                </div>
-            
-                <div class="col-md-6">
-                    <h3 class="page-header">Consommation électrique</h3>
-                    <canvas id="power-consumption-chart"></canvas>
-                </div>
-            
-                <div class="col-md-6">
-                    <h3 class="page-header">Monoxyde de carbone</h3>
-                    <canvas id="carbon-monoxide-chart"></canvas>
-                </div>
-            
-                <div class="col-md-6">
-                    <h3 class="page-header">Luminosité</h3>
-                    <canvas id="luminosity-chart"></canvas>
+                
+                    <div class="row">
+                        <div class="col-md-6">
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <script src="/vendors/polyfills.js"></script>
-        <script src="/vendors/chart.js"></script>
-        <script src="/vendors/moment.js"></script>
-        <script src="/vendors/jquery.js"></script>
-        <script src="/vendors/bootstrap.js"></script>
-        <script src="/home.js"></script>
+        <script src="/assets/js/require.min.js"></script>
+        <script>
+            requirejs.config({
+                baseUrl: '/'
+            });
+        </script>
+        <script src="/assets/js/fetch.js"></script>
+        <script src="/assets/js/dashboard.js"></script>
+        <script src="/assets/plugins/charts-c3/plugin.js"></script>
+        <script src="/assets/js/home.js"></script>
     </body>
 </html>

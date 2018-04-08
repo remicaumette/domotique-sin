@@ -1,35 +1,26 @@
 const Connection = require('./connection');
 const { EventEmitter } = require('events');
 
-class Metrics extends EventEmitter {
-    /*
-     * Créer un nouveau tableau de mesure.
-     */
+class Sensor extends EventEmitter {
     constructor(name) {
         super();
         this.name = name;
     }
 
-    /*
-     * Ajouter une mesure.
-     */
-    add(time, value) {
+    addMetric(time, value) {
         const redis = Connection.open();
 
-        return redis.zadd(`metrics:${this.name}`, time, value)
+        return redis.zadd(`sensors:${this.name}`, time, value)
             .then(() => {
                 this.emit('add', { time, value });
                 return redis.disconnect();
             });
     }
 
-    /*
-     * Obtenir les dernières mesures.
-     */
-    getLast(limit) {
+    getLastMetrics(limit) {
         const redis = Connection.open();
 
-        return redis.zrange(`metrics:${this.name}`, `-${limit || 1}`, '-1', 'WITHSCORES')
+        return redis.zrange(`sensors:${this.name}`, `-${limit || 1}`, '-1', 'WITHSCORES')
             .then((rawData) => {
                 const data = [];
                 for (let i = 0; i < rawData.length; i += 2) {
@@ -41,4 +32,4 @@ class Metrics extends EventEmitter {
     }
 }
 
-module.exports = Metrics;
+module.exports = Sensor;

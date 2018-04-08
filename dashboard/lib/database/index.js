@@ -1,52 +1,29 @@
 const Connection = require('./connection');
 const Account = require('./account');
-const Metrics = require('./metrics');
+const Sensor = require('./sensor');
 const { EventEmitter } = require('events');
 
-/*
- * Gestion des mesures de la température.
- */
-const TEMPERATURE_METRICS = new Metrics('temperature');
+const TEMPERATURE_SENSOR = new Sensor('temperature');
+const HUMIDITY_SENSOR = new Sensor('humidity');
+const VOLATIL_ORGANIC_COMPOUND_SENSOR = new Sensor('volatil_organic_compound');
+const POWER_CONSUMPTION_SENSOR = new Sensor('power_consumption');
+const LUMINOSITY_SENSOR = new Sensor('luminosity');
 
-/*
- * Gestion des mesures de la teneur en monoxyde de carbone.
- */
-const CARBON_MONOXIDE_METRICS = new Metrics('carbon_monoxide');
-
-/*
- * Gestion des mesures de la consommation électrique.
- */
-const POWER_CONSUMPTION_METRICS = new Metrics('power_consumption');
-
-/*
- * Gestion des mesures de la luminosité.
- */
-const LUMINOSITY_METRICS = new Metrics('luminosity');
-
-/*
- * Gestion des mesures de reconnaissance faciale.
- */
-const FACE_RECOGNITION_METRICS = new Metrics('face_recognition');
-
-/*
- * Liste de toutes les mesures.
- */
-const METRICS = {
-    TEMPERATURE: TEMPERATURE_METRICS,
-    CARBON_MONOXIDE: CARBON_MONOXIDE_METRICS,
-    POWER_CONSUMPTION: POWER_CONSUMPTION_METRICS,
-    LUMINOSITY: LUMINOSITY_METRICS,
-    FACE_RECOGNITION: FACE_RECOGNITION_METRICS,
+const SENSORS = {
+    TEMPERATURE: TEMPERATURE_SENSOR,
+    HUMIDITY: HUMIDITY_SENSOR,
+    VOLATIL_ORGANIC_COMPOUND: VOLATIL_ORGANIC_COMPOUND_SENSOR,
+    POWER_CONSUMPTION: POWER_CONSUMPTION_SENSOR,
+    LUMINOSITY: LUMINOSITY_SENSOR,
 };
 
-/**
- * Gestion des evenements de la caméra.
- */
+const SENSORS_EVENTS = new EventEmitter();
+Object.values(SENSORS)
+    .forEach((sensor) => {
+        sensor.on('add', value => SENSORS_EVENTS.emit('add', { sensor, time: value.time, value: value.value }));
+    });
 const CAMERA_EVENTS = new EventEmitter();
 
-/**
- * On récupère la température désiré (par défaut 19°C).
- */
 const getDesiredTemperature = () => {
     const redis = Connection.open();
     return redis.get('desired_temperature')
@@ -56,43 +33,29 @@ const getDesiredTemperature = () => {
         });
 };
 
-/**
- * On défini la température désiré.
- */
 const setDesiredTemperature = (temperature) => {
     const redis = Connection.open();
     return redis.set('desired_temperature', temperature)
         .then(() => redis.disconnect());
 };
 
-/*
- * On initialise la base de donnée (lancement des subscribers...).
- */
 const init = () => {
-    const redisListener = Connection.open();
+    const sensorsListener = Connection.open();
 
-    redisListener.subscribe('sensors');
+    sensorsListener.subscribe('sensors');
 
-    redisListener.on('message', (channel, message) => {
+    sensorsListener.on('message', (channel, message) => {
         const data = JSON.parse(message);
         data.time = Math.floor(Date.now() / 1000) * 1000;
-        if (data.sensor === 'CAMERA') {
-            CAMERA_EVENTS.emit('data', data.value);
-        } else {
-            METRICS[data.sensor].add(data.time, data.value);
-        }
+        SENSORS[data.sensor].addMetric(data.time, data.value);
     });
 };
 
 module.exports = {
-    Metrics,
+    Sensor,
     Account,
-    TEMPERATURE_METRICS,
-    CARBON_MONOXIDE_METRICS,
-    POWER_CONSUMPTION_METRICS,
-    LUMINOSITY_METRICS,
-    FACE_RECOGNITION_METRICS,
-    METRICS,
+    SENSORS,
+    SENSORS_EVENTS,
     CAMERA_EVENTS,
     getDesiredTemperature,
     setDesiredTemperature,

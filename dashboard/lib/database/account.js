@@ -2,10 +2,7 @@ const BCrypt = require('bcrypt-nodejs');
 const Connection = require('./connection');
 
 class Account {
-    /*
-     * Créer l'objet Account.
-     * /!\ NE PAS UTILISER /!\
-     */
+
     constructor(username, password, fullname, createdAt) {
         this.username = username;
         this.password = password;
@@ -13,9 +10,6 @@ class Account {
         this.createdAt = createdAt;
     }
 
-    /*
-     * Comparer le mot de passe du compte avec un autre.
-     */
     comparePassword(password) {
         return new Promise((resolve, reject) => {
             BCrypt.compare(password, this.password, (error, match) => {
@@ -28,9 +22,6 @@ class Account {
         });
     }
 
-    /*
-     * Sauvegarder le compte.
-     */
     save() {
         const redis = Connection.open();
 
@@ -44,25 +35,16 @@ class Account {
             .then(() => redis.disconnect());
     }
 
-    /*
-     * Encrypter un mot de passe.
-     */
     static encryptPassword(password) {
         const salt = BCrypt.genSaltSync(10);
         const encryptedPassword = BCrypt.hashSync(password, salt, undefined);
         return encryptedPassword;
     }
 
-    /*
-     * Créé un nouveau compte.
-     */
     static create(username, password, fullname, createdAt) {
         return new Account(username, Account.encryptPassword(password), fullname, createdAt);
     }
 
-    /*
-     * Chercher un compte à partir de son pseudo.
-     */
     static findByUsername(username) {
         const redis = Connection.open();
 

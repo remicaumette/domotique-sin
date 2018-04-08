@@ -1,6 +1,6 @@
 const Connection = require('../lib/database/connection');
 
-const fakeTemperatureModule = () => {
+const fakeTemperatureSensor = () => {
     const publisher = Connection.open();
 
     setInterval(() => publisher.publish('sensors', JSON.stringify({
@@ -9,16 +9,25 @@ const fakeTemperatureModule = () => {
     })), 60 * 1000);
 };
 
-const fakeCarbonMonoxideModule = () => {
+const fakeHumiditySensor = () => {
     const publisher = Connection.open();
 
     setInterval(() => publisher.publish('sensors', JSON.stringify({
-        sensor: 'CARBON_MONOXIDE',
+        sensor: 'HUMIDITY',
         value: Math.floor(Math.random() * 100),
     })), 60 * 1000);
 };
 
-const fakePowerConsumptionModule = () => {
+const fakeVolatilOrganicCompoundSensor = () => {
+    const publisher = Connection.open();
+
+    setInterval(() => publisher.publish('sensors', JSON.stringify({
+        sensor: 'VOLATIL_ORGANIC_COMPOUND',
+        value: Math.floor(Math.random() * 500),
+    })), 60 * 1000);
+};
+
+const fakePowerConsumptionSensor = () => {
     const publisher = Connection.open();
 
     setInterval(() => publisher.publish('sensors', JSON.stringify({
@@ -27,7 +36,7 @@ const fakePowerConsumptionModule = () => {
     })), 60 * 1000);
 };
 
-const fakeLightModule = () => {
+const fakeLuminositySensor = () => {
     const publisher = Connection.open();
 
     setInterval(() => publisher.publish('sensors', JSON.stringify({
@@ -36,7 +45,8 @@ const fakeLightModule = () => {
     })), 60 * 1000);
 };
 
-fakeTemperatureModule();
-fakeCarbonMonoxideModule();
-fakePowerConsumptionModule();
-fakeLightModule();
+fakeTemperatureSensor();
+fakeHumiditySensor();
+fakeVolatilOrganicCompoundSensor();
+fakePowerConsumptionSensor();
+fakeLuminositySensor();
