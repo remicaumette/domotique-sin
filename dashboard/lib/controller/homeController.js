@@ -22,9 +22,18 @@ module.exports.getDesiredTemperature = (req, res) => {
 
 module.exports.postDesiredTemperature = (req, res) => {
     Database.setDesiredTemperature(req.body.temperature)
-        .then(() => res.status(204).end())
+        .then(() => res.status(200).end())
         .catch((error) => {
             console.error(error);
             res.status(500).end();
         });
 };
+
+module.exports.postDoorStatus = (req, res) => {
+    Database.updateDoorStatus(req.body.state)
+        .then(() => res.status(200).end())
+        .catch((error) => {
+            console.error(error);
+            res.status(500).end();
+        });
+}

@@ -36,9 +36,17 @@ const getDesiredTemperature = () => {
 
 const setDesiredTemperature = (temperature) => {
     const redis = Connection.open();
-    return redis.set('desired_temperature', temperature)
-        .then(() => redis.disconnect());
+    return Promise.all([
+        redis.set('desired_temperature', temperature),
+        redis.publish('updates', JSON.stringify({ type: "DESIRED_TEMPERATURE", value: temperature })),
+    ]).then(() => redis.disconnect());
 };
+
+const updateDoorStatus = (state) => {
+    const redis = Connection.open();
+    return redis.publish('updates', JSON.stringify({ type: "UPDATE_DOOR_STATUS", value: state }))
+        .then(() => redis.disconnect());
+}
 
 const init = () => {
     const sensorsListener = Connection.open();
@@ -48,7 +56,7 @@ const init = () => {
     sensorsListener.on('message', (channel, message) => {
         const data = JSON.parse(message);
         const sensor = SENSORS[data.sensor];
-        data.time = Math.floor(Date.now() / 1000) * 1000;
+        data.time = Date.now();
         if (sensor) {
             sensor.addData(data.time, data.value);
         } else if (data.sensor === 'CAMERA') {
@@ -64,5 +72,6 @@ module.exports = {
     EVENTS,
     getDesiredTemperature,
     setDesiredTemperature,
+    updateDoorStatus,
     init,
 };

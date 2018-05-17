@@ -1,17 +1,36 @@
 /* eslint-disable */
 
+function displayAlert(type, message) {
+    var alerts = document.getElementById('alerts');
+    alerts.innerHTML = '<div class="alert alert-' + type + '" role="alert"><button type="button" class="close" data-dismiss="alert"></button> ' + message + '</div>';
+}
+
+function handleError() {
+    displayAlert('danger', "Une erreur s'est produite merci de réessayer plus tard.");
+}
+
+function updateDoorStatus(state) {
+    fetch('/door_status', {
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({ state: state }),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(function (resp) {
+            if (resp.ok && resp.status === 200) {
+                displayAlert('success', state ? "Porte ouverte" : "Porte fermé");
+            } else {
+                throw new Error('An internal error occurred');
+            }
+        })
+        .catch(handleError);
+}
+
 require(['c3', 'jquery'], function (c3, $) {
     $(document).ready(function () {
         /** FUNCTIONS */
-        function displayAlert(type, message) {
-            var alerts = document.getElementById('alerts');
-            alerts.innerHTML = '<div class="alert alert-' + type + '" role="alert"><button type="button" class="close" data-dismiss="alert"></button> ' + message + '</div>';
-        }
-
-        function handleError() {
-            displayAlert('danger', "Une erreur s'est produite merci de réessayer plus tard.");
-        }
-
         function uri2array(uri, buffer) {
             var marker = ';base64,',
                 raw = window.atob(uri.substring(uri.indexOf(marker) + marker.length)),
@@ -85,7 +104,7 @@ require(['c3', 'jquery'], function (c3, $) {
                 },
             })
                 .then(function (resp) {
-                    if (resp.ok && resp.status === 204) {
+                    if (resp.ok && resp.status === 200) {
                         displayAlert('success', "La température voulue vient d'être mise à jour");
                     } else {
                         throw new Error('An internal error occurred');

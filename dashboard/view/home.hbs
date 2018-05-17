@@ -8,6 +8,11 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext"/>
         <link rel="stylesheet" href="/assets/css/dashboard.css"/>
         <link rel="stylesheet" href="/assets/plugins/charts-c3/plugin.css"/>
+        <style>
+            .btn-success, .btn-danger {
+                color: #FFF !important;
+            }
+        </style>
     </head>
     <body>
         <div class="page">
@@ -128,6 +133,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <a onclick="updateDoorStatus(1)" class="btn btn-success">Ouvrir la porte</a>
+                                            <a onclick="updateDoorStatus(0)" class="btn btn-danger">Fermer la porte</a>
                                         </form>
                                     </div>
                                 </div>

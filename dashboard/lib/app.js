@@ -29,6 +29,7 @@ app.get('/', HomeController.getIndex);
 app.get('/home', checkAuth, HomeController.getHome);
 app.get('/desired_temperature', checkAuth, HomeController.getDesiredTemperature);
 app.post('/desired_temperature', checkAuth, HomeController.postDesiredTemperature);
+app.post('/door_status', checkAuth, HomeController.postDoorStatus);
 
 app.get('/auth/login', AuthController.getLogin);
 app.post('/auth/login', AuthController.postLogin);
