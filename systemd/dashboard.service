@@ -1,0 +1,13 @@
+[Unit]
+Description=Domotique Sin Dashboard
+After=network.target
+
+[Service]
+Type=simple
+Environment=NODE_ENV=production
+Environment=PORT=80
+WorkingDirectory=/home/pi/domotique-sin/dashboard
+ExecStart=/usr/bin/npm start
+
+[Install]
+WantedBy=default.target

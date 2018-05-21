@@ -1,0 +1,12 @@
+[Unit]
+Description=Domotique Sin Actuators
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/domotique-sin/actuators
+ExecStart=/usr/bin/python2 main.py
+
+[Install]
+WantedBy=default.target
