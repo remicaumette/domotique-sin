@@ -22,4 +22,4 @@ while True:
         print "Demande"
         data = json.dumps({ "sensor": "BUTTON", "value": 1 })
         redis.publish("sensors", data)
-	    time.sleep(5)
+	time.sleep(5)
