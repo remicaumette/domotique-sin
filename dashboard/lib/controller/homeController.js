@@ -36,4 +36,4 @@ module.exports.postDoorStatus = (req, res) => {
             console.error(error);
             res.status(500).end();
         });
-}
+};

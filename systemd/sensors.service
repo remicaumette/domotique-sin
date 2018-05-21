@@ -1,11 +1,11 @@
 [Unit]
-Description=Domotique Sin Camera
+Description=Domotique Sin Sensors
 After=network.target
 
 [Service]
 Type=simple
 User=pi
-WorkingDirectory=/home/pi/domotique-sin/camera
+WorkingDirectory=/home/pi/domotique-sin/sensors
 ExecStart=/usr/bin/python2 main.py
 
 [Install]

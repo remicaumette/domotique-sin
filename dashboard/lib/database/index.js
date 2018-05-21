@@ -38,29 +38,33 @@ const setDesiredTemperature = (temperature) => {
     const redis = Connection.open();
     return Promise.all([
         redis.set('desired_temperature', temperature),
-        redis.publish('updates', JSON.stringify({ type: "DESIRED_TEMPERATURE", value: temperature })),
+        redis.publish('updates', JSON.stringify({ type: 'DESIRED_TEMPERATURE', value: temperature })),
     ]).then(() => redis.disconnect());
 };
 
 const updateDoorStatus = (state) => {
     const redis = Connection.open();
-    return redis.publish('updates', JSON.stringify({ type: "UPDATE_DOOR_STATUS", value: state }))
+    return redis.publish('updates', JSON.stringify({ type: 'UPDATE_DOOR_STATUS', value: state }))
         .then(() => redis.disconnect());
-}
+};
 
 const init = () => {
     const sensorsListener = Connection.open();
 
-    sensorsListener.subscribe('sensors');
+    sensorsListener.subscribe('sensors', 'camera');
 
     sensorsListener.on('message', (channel, message) => {
         const data = JSON.parse(message);
-        const sensor = SENSORS[data.sensor];
-        data.time = Date.now();
-        if (sensor) {
-            sensor.addData(data.time, data.value);
-        } else if (data.sensor === 'CAMERA') {
-            EVENTS.emit('add', { sensor: { name: 'CAMERA' }, time: data.time, value: data.value });
+        if (channel === 'sensors') {
+            const sensor = SENSORS[data.sensor];
+            data.time = Date.now();
+            if (sensor) {
+                sensor.addData(data.time, data.value);
+            } else {
+                EVENTS.emit('add', { sensor: { name: data.sensor }, time: data.time, value: data.value });
+            }
+        } else if (channel === 'camera') {
+            EVENTS.emit('camera', data.value);
         }
     });
 };

@@ -54,8 +54,7 @@ while capture.isOpened():
         else:
             active = False
 
-    redis.publish('sensors', json.dumps({
-        'sensor': 'CAMERA',
+    redis.publish('camera', json.dumps({
         'value': buff
     }))
 

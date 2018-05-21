@@ -139,18 +139,22 @@ require(['c3', 'jquery'], function (c3, $) {
                 sensor.chart.load({
                     columns: sensor.data
                 });
-            } else if (event.sensor.toUpperCase() === 'CAMERA') {
-                if (uriCache) {
-                    URL.revokeObjectURL(uriCache);
-                    uriCache = undefined;
-                }
-                uriCache = URL.createObjectURL(new Blob([uri2array('data:image/png;base64,' + value)], { type: 'image/png' }));
-                document.getElementById('camera').src = uriCache;
             } else if (event.sensor.toUpperCase() === 'FACE_RECOGNITION') {
                 var element = document.getElementById('face-recognition');
                 var uri = URL.createObjectURL(new Blob([uri2array('data:image/png;base64,' + value)], { type: 'image/png' }));
                 element.innerHTML = element.innerHTML + '<div class="col-6 col-md-4 col-lg-3 col-xl-2"><img class="rounded" src="'+ uri +'"/></div>';
+            } else if (event.sensor.toUpperCase() === 'BUTTON') {
+                displayAlert('success', "Quelqu'un sonne à la porte.");
             }
+        });
+
+        socket.on('camera', function (event) {
+            if (uriCache) {
+                URL.revokeObjectURL(uriCache);
+                uriCache = undefined;
+            }
+            uriCache = URL.createObjectURL(new Blob([uri2array('data:image/png;base64,' + event)], { type: 'image/png' }));
+            document.getElementById('camera').src = uriCache;
         });
 
         socket.emit('ready');

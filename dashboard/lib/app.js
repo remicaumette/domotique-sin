@@ -44,6 +44,7 @@ io.on('connection', (client) => {
                         client.emit('sensors', { sensor: sensor.name, time: value.time, value: value.value })))
                     .catch(console.error));
         Database.EVENTS.on('add', event => client.emit('sensors', { sensor: event.sensor.name, time: event.time, value: event.value }));
+        Database.EVENTS.on('camera', event => client.emit('camera', event));
     });
 });
 
