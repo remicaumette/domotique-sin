@@ -1,14 +1,14 @@
 #include <Redis.h>
 #include <DHT.h>
 
-#define WIFI_SSID "SSID"
-#define WIFI_PASSWORD "PASSWORD"
+#define WIFI_SSID "Domotique SIN"
+#define WIFI_PASSWORD "12345678"
 
-#define REDIS_ADDR "127.0.0.1"
+#define REDIS_ADDR "192.168.1.1"
 #define REDIS_PORT 6379
 #define REDIS_PASSWORD ""
 
-#define DHT_PIN   D4
+#define DHT_PIN   2
 #define DHT_TYPE  DHT22
 
 Redis redis(REDIS_ADDR, REDIS_PORT);
@@ -45,7 +45,7 @@ void setup()
 
 void loop()
 {
-    delay(2000);
+    delay(60000);
     float temperature = dht.readTemperature(false);
     if (isnan(temperature)) 
     {
@@ -59,6 +59,21 @@ void loop()
         if (redis.publish("sensors", message.c_str()) == -1)
         {
             Serial.println("Failed to send the temperature over redis pub/sub!");
+        }
+    }
+    float humidity = dht.readHumidity(true);
+    if (isnan(humidity)) 
+    {
+        Serial.println("Failed to read the humidity!");
+    } 
+    else
+    {
+        String message = "{\"sensor\": \"HUMIDITY\", \"value\": ";
+        message.concat(humidity);
+        message.concat("}");
+        if (redis.publish("sensors", message.c_str()) == -1)
+        {
+            Serial.println("Failed to send the humidity over redis pub/sub!");
         }
     }
 }

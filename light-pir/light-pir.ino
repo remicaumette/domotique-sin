@@ -1,13 +1,13 @@
 #include <Redis.h>
 
-#define WIFI_SSID "SSID"
-#define WIFI_PASSWORD "PASSWORD"
+#define WIFI_SSID "Domotique SIN"
+#define WIFI_PASSWORD "12345678"
 
-#define REDIS_ADDR "127.0.0.1"
+#define REDIS_ADDR "192.168.1.1"
 #define REDIS_PORT 6379
 #define REDIS_PASSWORD ""
 
-#define PIR_PIN         14
+#define PIR_PIN         2
 #define LIGHT_PIN       A0
 
 Redis redis(REDIS_ADDR, REDIS_PORT);
@@ -58,5 +58,5 @@ void loop()
     {
         Serial.println("Failed to send the presence over redis pub/sub!");
     }
-    delay(2000);
+    delay(60000);
 }
